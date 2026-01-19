@@ -1,0 +1,20 @@
+graph TD
+    subgraph Client_Side ["Poste Client"]
+        Browser["Navigateur Web / Client HTTP"]
+    end
+
+    subgraph Server_Side ["Serveur d'Application"]
+        JVM["Machine Virtuelle Java"]
+        subgraph App_Container ["Conteneur Servlet - Tomcat"]
+            WAR["saas-api.war"]
+        end
+    end
+
+    subgraph Data_Side ["Persistance"]
+        DB[("Base de Données")]
+        FS["Système de Fichiers - Logs PDF"]
+    end
+
+    Browser -- "HTTPS (JSON)" --> WAR
+    WAR -- "JDBC" --> DB
+    WAR -- "I/O" --> FS

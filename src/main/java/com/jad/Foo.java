@@ -12,7 +12,7 @@ public class Foo {
     // Constructeur
     public Foo(Bar bar) {
         this.bar = bar;
-        this.qux = new Qux(); // Initialise Qux par défaut
+        this.qux = Factory.getInstance().createQux(); // Initialise Qux par défaut
     }
 
     // Getters et Setters
@@ -74,7 +74,7 @@ public class Foo {
     }
 
     public void addGrault() {
-        Grault grault = new Grault(this);
+        Grault grault = Factory.getInstance().createGrault(this);
         this.graults.add(grault);
     }
 }

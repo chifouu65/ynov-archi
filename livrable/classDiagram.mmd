@@ -1,0 +1,46 @@
+classDiagram
+    direction TB
+    %% Relations
+    Company "1" -- "*" User : emploie
+    Company "1" -- "*" Subscription : souscrit
+    User "1" -- "*" Ticket : crée (Auteur)
+    User "1" -- "*" Ticket : traite (Agent)
+    Ticket "1" -- "*" Comment : contient
+    Subscription "1" -- "*" Invoice : génère
+
+    %% Entités du Module Identity
+    class Company {
+        +String siret
+        +String name
+        +String address
+    }
+    class User {
+        +String email
+        +String passwordHash
+        +Enum role
+    }
+
+    %% Entités du Module Ticketing
+    class Ticket {
+        +String reference
+        +String title
+        +String description
+        +Enum status
+        +Enum priority
+    }
+    class Comment {
+        +String content
+        +Date createdAt
+    }
+
+    %% Entités du Module Billing
+    class Subscription {
+        +Date startDate
+        +Date endDate
+        +Enum planType
+    }
+    class Invoice {
+        +String number
+        +Float totalAmount
+        +Date issuedAt
+    }

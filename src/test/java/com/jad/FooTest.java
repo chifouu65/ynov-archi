@@ -9,8 +9,8 @@ import static org.junit.jupiter.api.Assertions.*;
 class FooTest {
     @Test
     void barTest() {
-        Bar bar = new Bar();
-        Foo foo = new Foo(bar);
+        Bar bar = Factory.getInstance().createBar();
+        Foo foo = Factory.getInstance().createFoo(bar);
         assertEquals(bar, foo.getBar(), "Bar should be the same as the one passed to the constructor");
     }
 
@@ -19,9 +19,9 @@ class FooTest {
         final int bazCount = 10;
         ArrayList<Baz> bazs = new ArrayList<>();
         for (int i = 0; i < bazCount; i++) {
-            bazs.add(new Baz());
+            bazs.add(Factory.getInstance().createBaz());
         }
-        Foo foo = new Foo(new Bar());
+        Foo foo = Factory.getInstance().createFoo(Factory.getInstance().createBar());
         assertEquals(0, foo.getBazs().size(), "Bazs should be empty by default");
         for (Baz baz : bazs) {
             foo.addBaz(baz);
@@ -32,14 +32,14 @@ class FooTest {
 
     @Test
     void quxTest() {
-        Foo foo = new Foo(new Bar());
+        Foo foo = Factory.getInstance().createFoo(Factory.getInstance().createBar());
         assertNotNull(foo.getQux(), "Qux should not be null");
     }
 
     @Test
     void graultTest() {
         final int bazGrault = 10;
-        Foo foo = new Foo(new Bar());
+        Foo foo = Factory.getInstance().createFoo(Factory.getInstance().createBar());
         assertEquals(0, foo.getGraults().size(), "Graults should be empty by default");
         for (int i = 0; i < bazGrault; i++) {
             foo.addGrault();
@@ -53,11 +53,11 @@ class FooTest {
 
     @Test
     void corgeTest() {
-        Foo foo = new Foo(new Bar());
-        Corge firstCorge = new Corge(foo);
+        Foo foo = Factory.getInstance().createFoo(Factory.getInstance().createBar());
+        Corge firstCorge = Factory.getInstance().createCorge(foo);
         assertEquals(foo, firstCorge.getFoo(), "Foo should be the same as the one passed to the constructor");
         assertEquals(firstCorge, foo.getCorge(), "Corge should be the same as the one passed to the constructor");
-        Corge secondCorge = new Corge(foo);
+        Corge secondCorge = Factory.getInstance().createCorge(foo);
         assertEquals(foo, secondCorge.getFoo(), "Foo should be the same as the one passed to the constructor");
         assertEquals(secondCorge, foo.getCorge(), "Corge should be the same as the one passed to the constructor");
         assertNull(firstCorge.getFoo(), "Foo should be null after the second Corge is created");

@@ -1,0 +1,28 @@
+sequenceDiagram
+    participant Client as Client (API Consumer)
+    participant Ctrl as TicketController
+    participant Service as TicketService
+    participant Repo as TicketRepository (Interface)
+    participant DB as Stockage (Implémentation)
+
+    Client->>Ctrl: POST /api/tickets (JSON)
+    Note over Ctrl: Validation DTO
+    
+    Ctrl->>Service: createTicket(userId, requestData)
+    activate Service
+    
+    Service->>Service: checkUserExists(userId)
+    Note right of Service: Appel Module Identity
+    
+    Service->>Service: applySLARules()
+    
+    Service->>Repo: save(newTicket)
+    activate Repo
+    Repo->>DB: INSERT ...
+    DB-->>Repo: Returns ID
+    Repo-->>Service: Ticket Entity
+    deactivate Repo
+    
+    deactivate Service
+    Service-->>Ctrl: Ticket complet
+    Ctrl-->>Client: 201 Created (JSON)
